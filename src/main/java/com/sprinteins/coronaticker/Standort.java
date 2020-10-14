@@ -2,6 +2,7 @@ package com.sprinteins.coronaticker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Standort {
 
@@ -20,25 +21,30 @@ public class Standort {
 		return relevantLandkreise;
 	}
 
-	public Risk evaluateRisk() {
-
-		// High
+	public Landkreis getOfficeLandkreis() {
 		for (Landkreis landkreis : relevantLandkreise) {
-			if (landkreis.getCases().intValue() >= 25) {
-				return Risk.HIGH;
+			if (landkreis.isOffice()) {
+				return landkreis;
 			}
 		}
+		return null;
+	}
 
-		// Medium
-		for (Landkreis landkreis : relevantLandkreise) {
-			if (landkreis.getCases().intValue() >= 5) {
-				return Risk.MEDIUM;
-			}
-		}
+	@Override
+	public int hashCode() {
+		return Objects.hash(name, relevantLandkreise);
+	}
 
-		// Low
-		return Risk.LOW;
-
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Standort other = (Standort) obj;
+		return Objects.equals(name, other.name) && Objects.equals(relevantLandkreise, other.relevantLandkreise);
 	}
 
 }
